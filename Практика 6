@@ -1,0 +1,80 @@
+#include <iostream>
+#include <cstdlib>
+using namespace std;
+
+class Property
+{
+protected: double worth;
+public:
+	Property() {
+		worth = 0;
+	}
+	Property(double money) {
+		worth = money;
+	}
+	virtual double salary() = 0;
+	virtual ~Property() {};
+};
+
+class Appartment : public Property
+{
+public:
+	Appartment(double money) : Property(money) {}
+	double salary() {
+		return worth / 1000;
+	}
+
+};
+
+class Car : public Property
+{
+public:
+	Car(double money) : Property(money) {}
+	double salary() {
+		return worth / 200;
+	}
+};
+
+class CountryHouse :public Property
+{
+public:
+	CountryHouse(double money) : Property(money) {}
+	double salary() {
+		return worth / 500;
+	}
+};
+
+int main()
+{
+	setlocale(LC_ALL, "Rus");
+	double worth[6];
+	double nalog;
+	cout << "Налог на квартиру вычисляется как 1 / 1000 ее стоимости, на машину — 1 / 200, на дачу — 1 / 500";
+	system("pause");
+	system("cls");
+	for (int i = 0; i < 7; i++) {
+		if (i < 3)
+			cout << "Введите стоимость квартиры №" << i + 1 << " - ";
+		if ((i > 2)&(i < 5))
+			cout << "Введите стоимость машины №" << i - 2 << " - ";
+		if ((i > 4)&(i < 7))
+			cout << "Введите стоимость дачи №" << i - 4 << " - ";
+		cin >> worth[i];
+	}
+
+	Property *Array[7] = { new Appartment(worth[0]), new Appartment(worth[1]), new Appartment(worth[2]), new Car(worth[3]), new Car(worth[4]), new CountryHouse(worth[5]), new CountryHouse(worth[6]) };
+	cout << endl;
+	for (int i = 0; i < 7; i++) {
+		nalog = Array[i]->salary();
+		if (i < 3)
+			cout << "Налог на квартиру №" << i + 1 << " - ";
+		if ((i > 2)&(i < 5))
+			cout << "Налог на машину №" << i - 2 << " - ";
+		if ((i > 4)&(i < 7))
+			cout << "Налог на дачу №" << i - 4 << " - ";
+		cout << nalog << endl;
+	}
+	delete Array;
+	system("pause");
+	return 0;
+}
